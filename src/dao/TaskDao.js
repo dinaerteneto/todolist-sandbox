@@ -3,7 +3,6 @@ import {Task} from '../models/Task';
 export class TaskDao {
 
     constructor(connection) {
-        console.log(connection);
         this._connection = connection;
         this._store = 'react-to-do-list';
     }
@@ -16,20 +15,45 @@ export class TaskDao {
                 .objectStore(this._store)
                 .add(task, task.id);
             
-            request.onsuccess = (e) => {
+            request.onsuccess = e => {
                 resolve();
             };
 
             request.onerror = e => {
-                console.log(e.target.error);
                 reject('Não foi possível adicionar a tarefa');
             };
         });
     }
 
+    upd(task) {
+        return new Promise((resolve, reject) => {
+            let cursor = this._connection
+            .transaction([this._store], 'readwrite')
+            .objectStore(this._store)
+            .openCursor();
+            
+            cursor.onsuccess = e => {
+                let current = e.target.result;
+                if(current) {
+                    if(current.value._id === task._id) {
+                        const request = current.update(task);
+                        request.onsuccess = e => {
+                            resolve();
+                        };        
+                        request.onerror = e => {
+                            reject('Não foi possível alterar a tarefa');
+                        };                       
+                    }
+                   current.continue();
+                } else {
+                   resolve();
+                }
+            }
+
+        });
+    }
+
     del(task) {
-        console.log(task);
-        console.log(task.id);
         return new Promise((resolve, reject) => {
             let request = this._connection
             .transaction([this._store], 'readwrite')

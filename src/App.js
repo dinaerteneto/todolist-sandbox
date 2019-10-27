@@ -5,6 +5,27 @@ import TodoList from "./components/TodoList";
 import { TaskService } from "./services/TaskService";
 import { Task } from "./models/Task";
 
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
+
+const SortableItem = SortableElement((value) => {
+  const {todo} = value;
+  
+  return (
+    <TodoList 
+    index={`index-${todo.id}`}
+    key={todo.id}
+    todo={todo} 
+    checkTodo={value.checkTodo} 
+    delTodo={value.delTodo} 
+  />  
+  )
+});
+
+const SortableList = SortableContainer(({children}) => {
+  return <div>{children}</div>
+});
+
 
 class App extends Component {
   constructor(props) {
@@ -15,16 +36,22 @@ class App extends Component {
     this._taskService = new TaskService();
   }
 
+
   componentDidMount() {
     this._taskService
       .all()
       .then(
         todos => {
-          console.log(todos);
           this.setState({ todos: [...todos] })
         } 
       )
       .catch(erro => console.log(erro))
+  }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState(({todos}) => ({
+      todos: arrayMove(todos, oldIndex, newIndex),
+    }))
   }
 
   addTodo = value => {
@@ -42,13 +69,15 @@ class App extends Component {
   };
 
   checkTodo = id => () => {
-    const { todos } = this.state;
-    const newTodo = todos.map(todo =>
-      todo.id === id ? { ...todo, done: !todo.done } : todo
-    );
-
+    const { todos } = this.state;     
+    const newTodo = todos.map(todo =>  {
+      return todo.id === id ? new Task(todo.id, false, todo.name) : todo
+    });
+    let todo = todos.find(todo => todo.id === id);
+    todo = {...todo, _done: !todo.done}
+    
     this._taskService
-      .update(newTodo)
+      .update(todo)
       .then(msg => {
         this.setState({ todos: newTodo });
       })
@@ -74,12 +103,21 @@ class App extends Component {
       <div className="App">
         <Header />
         <TodoForm addTodo={this.addTodo} />
-        <TodoList 
-          todos={todos} 
-          checkTodo={this.checkTodo} 
-          delTodo={this.delTodo} 
-        />
+
+        <SortableList onSortEnd={this.onSortEnd}>
+        {todos.map((todo, index) => (
+          <SortableItem 
+            index={index} 
+            key={todo.id}
+            todo={todo} 
+            checkTodo={this.checkTodo} 
+            delTodo={this.delTodo} 
+          />
+        ))}
+        </SortableList>
+
       </div>
+      
     );
   }
 }
