@@ -14,6 +14,7 @@ const SortableItem = SortableElement((value) => {
         openInput={value.openInput}
         closeInput={value.closeInput}
         todoItem={value.todoItem}
+        updTodo={value.updTodo}
       />  
     )
 });
@@ -22,7 +23,7 @@ const SortableList = SortableContainer(({children}) => {
     return <div>{children}</div>
 });
 
-const Todo = ({onSortEnd, todos, checkTodo, delTodo, openInput, todoItem, closeInput}) => {
+const Todo = ({onSortEnd, todos, checkTodo, delTodo, openInput, todoItem, closeInput, updTodo}) => {
     return (
     <SortableList onSortEnd={onSortEnd} pressDelay={100}>
         {todos.map((todo, index) => (
@@ -35,6 +36,7 @@ const Todo = ({onSortEnd, todos, checkTodo, delTodo, openInput, todoItem, closeI
                 openInput={openInput}
                 closeInput={closeInput}
                 todoItem={todoItem}
+                updTodo={updTodo}
             />
         ))}
     </SortableList>   

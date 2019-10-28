@@ -58,7 +58,7 @@ class App extends Component {
     this.setState({ todos: newTodos });
   }
 
-  updTodo = (id, name) => () => {
+  updTodo = (id, name) => {
     const { todos } = this.state;
     const newTodos = todos.map(todo =>
       todo.id === id ? { ...todo, name } : todo
@@ -73,7 +73,6 @@ class App extends Component {
   }
 
   openInput = id => () => {
-    console.log('App - openInput');
     this.setState({ todoItem: {updateItem: true, key: id} });
   }
 
@@ -96,7 +95,7 @@ class App extends Component {
                     addTodo={this.addTodo} 
                     todoItem={todoItem} 
                   />
-                  
+
                   <Todos 
                     onSortEnd={this.onSortEnd} 
                     todos={todos} 
@@ -105,6 +104,7 @@ class App extends Component {
                     todoItem={todoItem}
                     openInput={this.openInput}
                     closeInput={this.closeInput}
+                    updTodo={this.updTodo}
                   />
                 </Container>
               </React.Fragment>

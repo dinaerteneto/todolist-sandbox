@@ -19,9 +19,22 @@ class TodoItem extends Component {
     this.setState({ todoItem: {updateItem: true, key: id} });
   }
 
-  closeInput = id => () => {
+  updItem = (id, name) => {
     this.props.closeInput();
+    this.props.updTodo(id, name)
     this.setState({ todoItem: {updateItem: false, key: null} });
+  }
+
+  handleBlur = (id, event) => {
+    const name = event.target.value;
+    this.updItem(id, name);
+  }
+
+  handleKeyUp = (id, event) => {
+    if(event.keyCode === 13) {
+      const name = event.target.value;
+      this.updItem(id, name);
+    }
   }
 
   render() {
@@ -29,9 +42,19 @@ class TodoItem extends Component {
     const { todoItem } = this.state;
     let itemA;
 
-    itemA = <Checkbox label={todo.name} checked={todo.done} onChange={checkTodo(todo.id)} />
+    itemA = <Checkbox 
+      label={todo.name} 
+      checked={todo.done} 
+      onChange={checkTodo(todo.id)}
+    />
     if(todoItem.updateItem === true) {
-      itemA = <Input key={todo.key} defaultValue={todo.name} onBlur={this.closeInput(todo.id)} autoFocus />
+      itemA = <Input 
+        key={todo.key} 
+        defaultValue={todo.name} 
+        onBlur={event => this.handleBlur(todo.id, event)}
+        onKeyUp={event => this.handleKeyUp(todo.id, event)} 
+        autoFocus 
+      />
     }
 
     return (
@@ -49,14 +72,19 @@ class TodoItem extends Component {
             </Grid.Column>
   
             <Grid.Column>
-              <Button onClick={this.openInput(todo.id)} width={2} disabled={this.props.todoItem.updateItem}>
+              <Button 
+                onClick={this.openInput(todo.id)} 
+                width={2}
+                disabled={this.props.todoItem.updateItem}>
                 <Icon name='pencil' />
               </Button>
 
-              <Button onClick={delTodo(todo.id)} width={2} disabled={this.props.todoItem.updateItem}>
+              <Button 
+                onClick={delTodo(todo.id)} 
+                width={2} 
+                disabled={this.props.todoItem.updateItem}>
                 <Icon name='trash' />
               </Button>
-
             </Grid.Column>
   
           </Grid>
