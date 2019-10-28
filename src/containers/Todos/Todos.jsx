@@ -1,6 +1,7 @@
 import React from "react";
 import TodoItem from '../../components/TodoItem';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import { List } from 'semantic-ui-react'
 
 const SortableItem = SortableElement((value) => {
     const {todo} = value;
@@ -20,7 +21,7 @@ const SortableItem = SortableElement((value) => {
 });
   
 const SortableList = SortableContainer(({children}) => {
-    return <div>{children}</div>
+    return <List celled>{children}</List>
 });
 
 const Todo = ({onSortEnd, todos, checkTodo, delTodo, openInput, todoItem, closeInput, updTodo}) => {

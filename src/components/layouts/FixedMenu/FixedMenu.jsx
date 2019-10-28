@@ -12,7 +12,7 @@ const FixedMenuLayout = () => (
         <Container>
           <Menu.Item as='a' header>
             <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} />
-            TodoList - MOL
+            TodoList - MOL (Mediação Online)
           </Menu.Item>
           <Menu.Item as='a'><Link to="/">Home</Link></Menu.Item>
           <Menu.Item as='a'><Link to="/about">About</Link></Menu.Item>

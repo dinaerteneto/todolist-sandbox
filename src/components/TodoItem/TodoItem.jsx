@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Button, Checkbox, Grid, Icon, Input } from 'semantic-ui-react'
+import { Button, List, Checkbox, Grid, Icon, Input, Popup } from 'semantic-ui-react'
 
 class TodoItem extends Component {
 
@@ -58,37 +58,41 @@ class TodoItem extends Component {
     }
 
     return (
-      <div>
+      <List.Item>
+        <List.Content>
         <Grid
             centered
-            columns={3}
+            columns={2}
             padded
             stackable
             textAlign='center'
           >
-  
-            <Grid.Column>
-              {itemA}
-            </Grid.Column>
-  
-            <Grid.Column>
-              <Button 
-                onClick={this.openInput(todo.id)} 
-                width={2}
-                disabled={this.props.todoItem.updateItem}>
-                <Icon name='pencil' />
-              </Button>
 
-              <Button 
-                onClick={delTodo(todo.id)} 
-                width={2} 
-                disabled={this.props.todoItem.updateItem}>
-                <Icon name='trash' />
-              </Button>
+            <Grid.Column>
+              <p>{itemA}</p>
             </Grid.Column>
   
+            <Grid.Column>
+            <Popup content='Alterar tarefa' trigger={<Button icon
+                size='mini'
+                color='yellow'
+                onClick={this.openInput(todo.id)} 
+                disabled={this.props.todoItem.updateItem}>
+                <Icon name='edit' />
+              </Button>} />
+
+              <Popup content='Remover tarefa' trigger={<Button icon
+                size='mini'
+                color='red'
+                onClick={delTodo(todo.id)} 
+                disabled={this.props.todoItem.updateItem}>
+                <Icon name='trash alternate' />
+              </Button>} />
+            </Grid.Column>
+
           </Grid>
-      </div>  
+          </List.Content>
+          </List.Item>
     )
   }
 }
