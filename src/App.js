@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import arrayMove from 'array-move';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import About from "./pages/About";
+import Header from "./components/layouts/Header";
 import TodoForm from "./components/TodoForm";
 import Todos from "./containers/Todos";
-import arrayMove from 'array-move';
 
 
 class App extends Component {
@@ -59,19 +62,28 @@ class App extends Component {
   render() {
     const {todos} = this.state;
     return (
-      <div className="App">
-        
-       
-        <TodoForm addTodo={this.addTodo} />
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <br />
 
-        <Todos 
-          onSortEnd={this.onSortEnd} 
-          todos={todos} 
-          checkTodo={this.checkTodo} 
-          delTodo={this.delTodo} 
-        />
+            <Route exact path="/" render={props => (
+              <React.Fragment>
+                <TodoForm addTodo={this.addTodo} />
+                <Todos 
+                  onSortEnd={this.onSortEnd} 
+                  todos={todos} 
+                  checkTodo={this.checkTodo} 
+                  delTodo={this.delTodo} 
+                />
+              </React.Fragment>
+            )} />
 
-      </div>
+            <Route path="/about" component={About} />
+          </div>
+        </div>
+      </Router>
       
     );
   }
