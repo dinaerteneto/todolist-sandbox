@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import arrayMove from 'array-move';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Container } from 'semantic-ui-react'
 
 import About from "./pages/About";
 import Header from "./components/layouts/Header";
 import TodoForm from "./components/TodoForm";
 import Todos from "./containers/Todos";
+import FixedMenuLayout from "./components/layouts/FixedMenu";
 
 
 class App extends Component {
@@ -65,18 +67,19 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="container">
-            <Header />
+            <FixedMenuLayout />
             <br />
-
             <Route exact path="/" render={props => (
               <React.Fragment>
-                <TodoForm addTodo={this.addTodo} />
-                <Todos 
-                  onSortEnd={this.onSortEnd} 
-                  todos={todos} 
-                  checkTodo={this.checkTodo} 
-                  delTodo={this.delTodo} 
-                />
+                <Container style={{ marginTop: '7em' }}>
+                  <TodoForm addTodo={this.addTodo} />
+                  <Todos 
+                    onSortEnd={this.onSortEnd} 
+                    todos={todos} 
+                    checkTodo={this.checkTodo} 
+                    delTodo={this.delTodo} 
+                  />
+                </Container>
               </React.Fragment>
             )} />
 
