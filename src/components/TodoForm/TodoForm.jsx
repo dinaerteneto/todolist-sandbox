@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Button, Form, Input } from 'semantic-ui-react'
 
 const TaskSchema = Yup.object().shape({
   taskName: Yup.string()
@@ -21,19 +22,21 @@ const TodoForm = ({ addTodo }) => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="taskName">Task</label>
-      <input
-        id="taskName"
-        name="taskName"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.taskName}
-      />
-      <button type="submit" disabled={formik.errors.taskName}>
+    <Form onSubmit={formik.handleSubmit}>
+      <Form.Field>
+        <label htmlFor="taskName">Task</label>
+        <Input
+          id="taskName"
+          name="taskName"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.taskName}
+        />
+      </Form.Field>
+      <Button type="submit" disabled={formik.errors.taskName}>
         Submit
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 };
 

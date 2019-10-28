@@ -36,7 +36,6 @@ class App extends Component {
     this._taskService = new TaskService();
   }
 
-
   componentDidMount() {
     this._taskService
       .all()
@@ -48,10 +47,17 @@ class App extends Component {
       .catch(erro => console.log(erro))
   }
 
+  componentDidUpdate() {
+    console.log('componentDidUpdate')
+    
+  }
+
   onSortEnd = ({oldIndex, newIndex}) => {
+    console.log(oldIndex, newIndex)
     this.setState(({todos}) => ({
       todos: arrayMove(todos, oldIndex, newIndex),
     }))
+
   }
 
   addTodo = value => {
@@ -69,9 +75,12 @@ class App extends Component {
   };
 
   checkTodo = id => () => {
+
+    console.log('checktodo', id)
+
     const { todos } = this.state;     
     const newTodo = todos.map(todo =>  {
-      return todo.id === id ? new Task(todo.id, false, todo.name) : todo
+      return todo.id === id ? new Task(todo.id, !todo.done, todo.name) : todo
     });
     let todo = todos.find(todo => todo.id === id);
     todo = {...todo, _done: !todo.done}
