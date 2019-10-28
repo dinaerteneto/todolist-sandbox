@@ -10,7 +10,7 @@ const TaskSchema = Yup.object().shape({
     .required("Required")
 });
 
-const TodoForm = ({ addTodo }) => {
+const TodoForm = ({ addTodo, todoItem }) => {
   const formik = useFormik({
     initialValues: {
       taskName: ""
@@ -33,7 +33,7 @@ const TodoForm = ({ addTodo }) => {
           placeholder="Digite o título da tarefa"
         />
         
-        <Form.Button fluid type="submit" disabled={formik.errors.taskName}>
+        <Form.Button fluid type="submit" disabled={formik.errors.taskName || todoItem.updateItem}>
           Add
         </Form.Button>
       </Form.Group>

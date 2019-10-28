@@ -20,7 +20,7 @@ class TodoItem extends Component {
   }
 
   closeInput = id => () => {
-    const closeInput = this.props.closeInput();
+    this.props.closeInput();
     this.setState({ todoItem: {updateItem: false, key: null} });
   }
 

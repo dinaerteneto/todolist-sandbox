@@ -92,7 +92,11 @@ class App extends Component {
             <Route exact path="/" render={props => (
               <React.Fragment>
                 <Container style={{ marginTop: '7em' }}>
-                  <TodoForm addTodo={this.addTodo} />
+                  <TodoForm 
+                    addTodo={this.addTodo} 
+                    todoItem={todoItem} 
+                  />
+                  
                   <Todos 
                     onSortEnd={this.onSortEnd} 
                     todos={todos} 
