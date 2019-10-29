@@ -77,7 +77,7 @@ class TodoItem extends Component {
                 size='mini'
                 color='yellow'
                 onClick={this.openInput(todo.id)} 
-                disabled={this.props.todoItem.updateItem}>
+                disabled={this.state.todoItem.updateItem}>
                 <Icon name='edit' />
               </Button>} />
 
@@ -85,7 +85,7 @@ class TodoItem extends Component {
                 size='mini'
                 color='red'
                 onClick={delTodo(todo.id)} 
-                disabled={this.props.todoItem.updateItem}>
+                disabled={this.state.todoItem.updateItem}>
                 <Icon name='trash alternate' />
               </Button>} />
             </Grid.Column>
