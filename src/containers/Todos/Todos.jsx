@@ -48,40 +48,38 @@ class Todos extends Component {
   };
 
   addTodo = value => {
-    const { todos } = this.state;
-    this.setState({
-      todos: [
-        ...todos,
-        {
-          id: Date.now(),
-          name: value,
-          done: false,
-          order: 0
-        }
-      ]
-    });
+    const { store } = this.props;
+    const todo = {
+      id: Date.now(),
+      name: value,
+      done: false,
+      order: 0
+    };
+    store.dispatch(TodosActions.addTodo(todo));
   };
 
   checkTodo = id => () => {
-    const { todos } = this.state;
-    const newTodos = todos.map(todo =>
-      todo.id === id ? { ...todo, done: !todo.done } : todo
-    );
-    this.setState({ todos: newTodos });
+    console.log(id);
+    const { store } = this.props;
+    store.dispatch(TodosActions.checkTodo(id));
   };
 
   updTodo = (id, name) => {
+      /*
     const { todos } = this.state;
     const newTodos = todos.map(todo =>
       todo.id === id ? { ...todo, name } : todo
     );
     this.setState({ todos: newTodos });
+    */
+   
+    const { store } = this.props;
+    store.dispatch(TodosActions.updateTodo(id, name));    
   };
 
   delTodo = id => () => {
-    const { todos } = this.state;
-    const filterTodos = todos.filter(todo => todo.id !== id);
-    this.setState({ todos: [...filterTodos] });
+   const { store } = this.props;
+   store.dispatch(TodosActions.deleteTodo(id));
   };
 
   openInput = id => () => {
@@ -98,11 +96,11 @@ class Todos extends Component {
     console.log(this.state);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const { store } = this.props;
     store.subscribe(() => {
-      this.setState({todos:store.getState()});
-    })
+      this.setState({ todos: store.getState() });
+    });
   }
 
   componentDidMount() {

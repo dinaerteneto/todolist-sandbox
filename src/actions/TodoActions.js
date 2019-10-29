@@ -16,4 +16,29 @@ export default class TodoActions {
         }
     } 
 
+    static addTodo(todo) {
+        return dispatch => {            
+            dispatch({type: 'TODO_ADD', todo});
+        }
+    }
+
+    static updateTodo(id, name) {
+        return dispatch => {
+            const todo = {id, name};
+            dispatch({type: 'TODO_UPDATE', todo});
+        }
+    }
+
+    static deleteTodo(id) {
+        return dispatch => {
+            dispatch({type: 'TODO_DELETE', id});
+        }
+    }
+
+    static checkTodo(id) {
+        return dispatch => {
+            dispatch({type: 'TODO_DONE', id});
+        }
+    }
+
 }
